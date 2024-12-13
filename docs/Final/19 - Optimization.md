@@ -2,7 +2,7 @@
 layout: default
 title: Optimization
 parent: Final Notes
-nav_order: 9
+nav_order: 10
 ---
 Code Aesthetics: [https://www.youtube.com/watch?v=tKbV6BpH-C8](https://www.youtube.com/watch?v=tKbV6BpH-C8) 
 Step-by-step optimization video: [https://www.youtube.com/watch?v=U16RnpV48KQ](https://www.youtube.com/watch?v=U16RnpV48KQ) 

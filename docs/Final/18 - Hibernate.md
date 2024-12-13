@@ -2,7 +2,7 @@
 layout: default
 title: Hibernate
 parent: Final Notes
-nav_order: 7
+nav_order: 9
 ---
 Example Repository: [https://github.com/sde-coursepack/HibernateExample](https://github.com/sde-coursepack/HibernateExample)
 ### Entity Classes
