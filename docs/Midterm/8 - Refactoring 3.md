@@ -7,6 +7,7 @@ nav_order: 8
 # Functional Programming
 - A paradigm where functions are treated as first-class citizens, meaning they can be assigned to variables, passed as arguments, and returned by other functions.
 ## Python Functional programming
+
 ```python
 def my_func(input):
     print("I am a function")
@@ -18,6 +19,7 @@ x(10)
 ```
 
 prints: 
+
 ```python
 # where in memory the function instructions are stored
 <function my_func at 0x00000178068A2E18>
@@ -25,10 +27,12 @@ prints:
 I am a function
 My input is 10
 ```
+
 ## What Java has: SAMs
 - **Functional interfaces** are interfaces that can be used to define a **single abstract method**
 
 *example - implementations of Comparator*
+
 ```Java
 public class StringIgnoreCaseComparator implements Comparator<String> {
     public int compare(String s1, String s2) {
@@ -38,9 +42,11 @@ public class StringIgnoreCaseComparator implements Comparator<String> {
     }
 }
 ```
+
 ## Anonymous classes
 - create an instance of a new class when needed
 - no name in global namespace
+
 ```Java
     new Comparator<UVAStudent>() {
         @Override
@@ -49,10 +55,12 @@ public class StringIgnoreCaseComparator implements Comparator<String> {
             }
     }
 ```
+
 ## Lambda functions
 - unnamed function that is created when needed at runtime
 
 general structure:
+
 ```Java
 (parameters) -> {code block} // don't need parenthesis for 1 parameter
 
@@ -62,6 +70,7 @@ general structure:
 ```
 
 *example*
+
 ```Java
 Comparator<String> ignoreCase = (s1, s2) -> {
     return s1.toUpperCase().compareTo(s2.toUpperCase());
@@ -72,6 +81,7 @@ Comparator<String> ignoreCase = (s1, s2) -> {
 Comparator<String> ignoreCase = (s1, s2) -> 
         s1.toUpperCase().compareTo(s2.toUpperCase());
 ```
+
 ## Functional interfaces to know:
 ### Comparator
 - **Method**: `public int compare(E e1, E e2)`
@@ -111,6 +121,7 @@ Comparator<String> ignoreCase = (s1, s2) ->
     - Simplified with method capture: `itemList.forEach(System.out::println)`
 - **Example with `Comparator`**:
     - Original code comparing `UVAStudent`s by last name and first name:
+
 ```java
     studentList.sort((x, y) -> {
             if (x.getLastName().equals(y.getLastName())) {
@@ -122,6 +133,7 @@ Comparator<String> ignoreCase = (s1, s2) ->
 ````
 
 - we can definite a function in our `StudentManager` class:
+
 ```Java
     public int compareLastNameThenFirstName(UVAStudent s1, UVAStudent s2) {
         if (s1.getLastName().equals(s2.getLastName())) {
@@ -133,6 +145,7 @@ Comparator<String> ignoreCase = (s1, s2) ->
 ```
 
 - And now we can invoke that function in our lambda body:
+
 ```Java
 public class UVAStudentManager {
     public void sortStudentsLastNameThenFirstName(List<UVAStudent> studentList) {
@@ -148,12 +161,14 @@ public class UVAStudentManager {
     }
 }
 ```
+
 # Java Streams
 - **Streams** provide a way to process collections of data in a functional programming style. 
 - Think of streams as an assembly line that takes in data, processes it, and returns a result.
 ## Streams
 **Goal:** Get the total population of all states.
 Non-stream method:
+
 ```Java
     public int getTotalPopulation(List<State> stateList) {
         int sum = 0;
@@ -165,6 +180,7 @@ Non-stream method:
 ```
 
 Using streams:
+
 ```Java
     public int getTotalPopulation(List<State> stateList) {
         return stateList.stream()
@@ -175,6 +191,7 @@ Using streams:
 
 **Goal:** Get the smallest 5 states, sorted by population.
 Non-stream method:
+
 ```Java
     public List<State> getSmallestNStates(List<State> stateList, int numberOfStates) {
         List<State> safeCopy = new ArrayList<>(stateList);
@@ -193,6 +210,7 @@ Non-stream method:
 ```
 
 Using streams:
+
 ```Java
     public List<State> getSmallestNStates(List<State> stateList, int numberOfStates) {
         return stateList.stream()
@@ -201,6 +219,7 @@ Using streams:
             .collect(Collectors.toList());
     }
 ```
+
 ## Beginning - `.stream()`
 - **Start a stream** with:  `myCollection.stream()`
 - Intermediate operations perform transformations on data, while terminal operations produce results like lists or sums.

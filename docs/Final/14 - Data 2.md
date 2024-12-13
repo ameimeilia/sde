@@ -66,6 +66,7 @@ sqlite> .output dump.sql    --overwrites any existing file
 sqlite> .dump    -- generates an sql script that will recreate all database data
 sqlite> .output
 ```
+
 ## SQLite quirks
 - **No User Access Control**: no access control permissions, no “database user,” files are not encrypted by default
 - **Flexible Typing**: SQLite allows storing various data types in columns without strict enforcement and does not enforce maximum lengths for datatypes
@@ -93,6 +94,7 @@ sqlite> .output
 - text literals are case-sensitive
 ### Create Table
 #### Syntax
+
 ```sqlite
 CREATE TABLE [IF NOT EXISTS] table_name    -- tables are required to be unique
 (
@@ -110,8 +112,10 @@ sqlite> .tables
 -- to see the structure and constraints of the table again
 sqlite> .schema [table_name]
 ```
+
 #### Column Constraints
 *example - table creation*
+
 ```sqlite
 CREATE TABLE Books (
     BookID INTEGER PRIMARY KEY,
@@ -123,6 +127,7 @@ CREATE TABLE Books (
     Rating REAL DEFAULT 1.0 CHECK(Rating >= 1.0 AND RATING <= 5.0)
 ) STRICT;
 ```
+
 - `PRIMARY KEY`: make a column the primary key; should be first column and integer; entries must be **Unique** and **Not Null**
 - `NOT NULL`: requires that an attribute **must** be present
 - `UNIQUE`: **no two records** can have the same value in this column.
@@ -130,6 +135,7 @@ CREATE TABLE Books (
 - `CHECK`: includes a **boolean expression**; when inserted, if this expression returns FALSE, the inserted record is rejected and an error message given
 #### Table Constraints
 *example - unique (Title, Author) pair*
+
 ```sqlite
 CREATE TABLE IF NOT EXISTS Books (
   BookID INTEGER PRIMARY KEY,
@@ -143,6 +149,7 @@ CREATE TABLE IF NOT EXISTS Books (
   UNIQUE(Title, Author)
 ) STRICT;
 ```
+
 #### Changing Tables after creation
 1. **Create a New Table**: Name it differently but include existing columns plus any modifications.
 2. **Copy Data**: Use `INSERT` to transfer data from the old table to the new table.
@@ -152,6 +159,7 @@ CREATE TABLE IF NOT EXISTS Books (
 - **Avoid Frequent Alterations**: Plan table design carefully to reduce the need for alterations.
 - **Backup Databases**: Always backup before making any structural changes to avoid data loss.
 ### INSERT
+
 ```sqlite
 -- add one record into table Books
 -- NEVER blind insert (insert without column names)
@@ -178,8 +186,10 @@ sqlite> SELECT * FROM Books;
 5|Happier as Werewolves|||Andrew Heaton|2016|3.9
 -- BookID is auto-incremented since it is an INTEGER PRIMARY KEY
 ```
+
 - data is **persistent** and can only be removed using `DELETE` or `DROP` command
 ### SELECT
+
 ```sqlite
 -- to display the entire table
 sqlite> SELECT * FROM Books;
@@ -268,6 +278,7 @@ Deadhouse Gates                     Malazan Book of the Fallen        2
 Memories of Ice                     Malazan Book of the Fallen        3            
 The Shadow Rising                   The Wheel of Time                 4            
 ```
+
 ### Transactions
 - In SQLite, by default **auto-commit is on**!
 - before **ever** using `UPDATE` or `DELETE`, do the following:
@@ -275,6 +286,7 @@ The Shadow Rising                   The Wheel of Time                 4
 	2. `BEGIN TRANSACTION`
 #### `BEGIN TRANSACTION`, `ROLLBACK`, and `COMMIT`
 - `BEGIN TRANSACTION` sets a “restore point”
+
 ```sqlite
 sqlite> BEGIN TRANSACTION;
 sqlite> DELETE FROM Books; --oops I accidently put a semicolon when I only wanted to delete a specific book
@@ -283,12 +295,15 @@ sqlite> SELECT * FROM Books;
 
 - `DELETE FROM Books` is currently **transient**, a pending change that hasn’t been saved permanently
 - use `ROLLBACK` to restore to the state at `BEGIN TRANSACTION`
+
 ```sqlite
 sqlite> ROLLBACK;
 ```
+
 - use `COMMIT` to permanently store the changes in the database
 ### UPDATE
 - used to _change_ existing data
+
 ```sqlite
 BEGIN TRANSACTION;
 
@@ -300,6 +315,7 @@ UPDATE Books
 -- check that UPDATE was used correctly
 SELECT * FROM Books;
 ```
+
 ### DELETE
 - general rule: when removing a **single specific record** use its Primary Key
 
@@ -325,18 +341,22 @@ SELECT * FROM Books;
 -- to "truncate" or delete all data without deleting table schema:
 DELETE FROM Books;
 ```
+
 ### DROP
 - deletes the entire table, including schema
+
 ```sqlite
 -- throws error if table doesn't exist
 DROP TABLE Books;
 
 DROP TABLE IF EXISTS Books;
 ```
+
 ### UPSERT
 - combination of insert and update
 - use unique ID to determine whether query is an `INSERT` or `UPDATE`
 - danger: if wrong ID is used, record will be corrupted or replaced
+
 ```sqlite
 INSERT INTO Books(BookID, Title, Series, SeriesOrder, Author, Published, Rating)
     VALUES (6, 'The Long Dark Tea-Time of the Soul', 'Dirk Gently Holistic Detective Agency', 2, 'Douglas Adams', 1988, 2.7),
@@ -358,8 +378,10 @@ BookID  Title                                    Rating
 6       The Long Dark Tea-Time of the Soul       2.7    -- rating updated
 7       Dirk Gently''s Holistic Detective Agency 3.1    -- record added
 ```
+
 ### Ensuring unique ID
 - besides inserting `null`, get the existing max ID then add one to it
+
 ```sqlite
 SELECT MAX(BookID)+1 FROM Books; 
 ```

@@ -76,6 +76,7 @@ This video shows how to solve this problem: [https://adventofcode.com/2022/day/6
 	- Functions like an `ArrayList`, preallocating space and doubling its size when necessary.
 	- Amortized time for each character addition is **O(1)**, making the total runtime **O(k * n)** for `k` concatenations.
 	- Significantly improves performance in scenarios with repeated concatenations.
+
 ```Java
 StringBuffer resultsBuffer = new StringBuffer();
 for(String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
@@ -87,6 +88,7 @@ for(String line = bufferedReader.readLine(); line != null; line = bufferedReader
 	currentLineNumber++;
 }
 ```
+
 - `append`: Adds argument’s `String` representation to the buffer.
 - `toString`: Returns buffer content as a `String`.
 - **Performance**:
@@ -118,6 +120,7 @@ for(String line = bufferedReader.readLine(); line != null; line = bufferedReader
 # Optimization Example
 ## Point Class
 ## [Point.java](https://github.com/sde-coursepack/EfficiencyExample/blob/master/src/main/java/edu/virginia/cs/sde/efficiency/Point.java)
+
 ```Java
 public class Point {
     private double x, y;
@@ -135,7 +138,9 @@ public class Point {
     }
 }
 ```
+
 ## [Path.java](https://github.com/sde-coursepack/EfficiencyExample/blob/master/src/main/java/edu/virginia/cs/sde/efficiency/Path.java)
+
 ```Java
 public interface Path {
 	// note there is one add method for doubles and one for a Point instance
@@ -146,7 +151,9 @@ public interface Path {
     double totalDistance();
 }
 ```
+
 ## [PointListPath.java](https://github.com/sde-coursepack/EfficiencyExample/blob/master/src/main/java/edu/virginia/cs/sde/efficiency/PointListPath.java)
+
 ```Java
 public class PointListPath implements Path {
     private final List<Point> points;
@@ -197,6 +204,7 @@ public class PointListPath implements Path {
     }
 }
 ```
+
 ## Explaining the solution
 ![pathListBetterDiagram.png](https://sde-coursepack.github.io/modules/refactoring/Optimization-Example/..%2Fimages%2Foptimization%2FpathListBetterDiagram.png)
 - `Point` objects **are not actually inside the `PointListPath`** object at all
@@ -217,6 +225,7 @@ public class PointListPath implements Path {
 - always have to take at least one extra step in memory to access a value.
 ## [CoordinateArrayPath.java](https://github.com/sde-coursepack/EfficiencyExample/blob/master/src/main/java/edu/virginia/cs/sde/efficiency/CoordinateArrayPath.java)
 - avoid the need for references → store the values of x and y in the same array
+
 ```Java
 public class CoordinateArrayPath implements Path {
     private final double[] pointArray;
@@ -275,12 +284,14 @@ public class CoordinateArrayPath implements Path {
 
 - store the `x` value of `2 * i`, and `y` at `2 * i + 1`
 - utilizes spatial locality of the processor cache
+
 ```Java
 // the array of
 [3, 1, 4, 7, -5, 2]
 // represents the points
 (3, 1), (4, 7), (-5, 2)
 ```
+
 ## Benchmarking
 - measure timing of two approaches
 - benchmarks:
@@ -341,6 +352,7 @@ public class CoordinateArrayPath implements Path {
 	7. **Consider Environment**: Account for heat, ambient temperature, and hardware setup.
 # ArrayList vs LinkedList
 - change constructor to:
+
 ```Java
     public PointListPath(int initialCapacity) {
         points = new LinkedList<>();
@@ -360,6 +372,7 @@ public class CoordinateArrayPath implements Path {
 
 - In general, if you have a LinkedList that you need to iterate through, you should always use an Iterator, so that getting each next node in the list is a constant time operation
 - adjusting code to account for Iterators makes it more complicated:
+
 ```Java
     public double totalDistance() {
         double totalDistance = 0.0;
@@ -424,6 +437,7 @@ public class CoordinateArrayPath implements Path {
 - **Work in a new git branch**: This allows safe experimentation and comparison.
 ## DRY - Don’t Recalculate Yourself
 - consider the following code:
+
 ```Java
 public Path getShortestPath(List<Path> paths){
     Path shortestPath = paths.get(0);
@@ -438,6 +452,7 @@ public Path getShortestPath(List<Path> paths){
 
 - always **re-calculating** the distance of `shortestpath` over every iteration of the loop
 - **trade** `calculation-time` for `memory` by storing the `shortestDistance` as a variable
+
 ```Java
 public Path getShortestPath(List<Path> paths){
     Path shortestPath=paths.get(0);
@@ -452,8 +467,10 @@ public Path getShortestPath(List<Path> paths){
     return path;
 }
 ```
+
 ### Nested Arrays
 - consider the following code:
+
 ```Java
 public class Matrix {
 	...
@@ -473,6 +490,7 @@ public class Matrix {
 	2) From the `other` location to it’s `matrix` array of `int[]` 
 	3) From the `other.matrix[row]` reference to the underlying array
 - using variables to limit references:
+
 ```Java
     public void add(Matrix other) {
         for (int row = 0; row < height; row++) {
@@ -484,6 +502,7 @@ public class Matrix {
         }
     }
 ```
+
 ## Lazy Evaluation
 - **Eager Evaluation Example:**
     - The code calculates the total distance of a path every time a new coordinate is added, resulting in unnecessary recalculations (e.g., calculating the distance 5 times when only the last distance is needed).
@@ -508,23 +527,28 @@ public class Matrix {
 - **Example (Path Object)**:
     - The `CoordinateArrayPath` class computes total distance once and stores it in `distanceMemo`
     - On subsequent calls to `totalDistance()`, the cached value is returned instead of recalculating the distance.
+
 ```Java
 if (distanceMemo.isPresent()) {
     return distanceMemo.get();
 }
 ```
+
 - **Trade-off**:
 	- **Memory Usage**: Storing cached values takes up memory.
 	- **Time Efficiency**: Significant improvement for functions that are repeatedly called with the same parameters.
 ### Memo invalidation
 - Memoized results can become outdated if underlying data changes. For instance, calling `add()` on `Path` alters the total distance, necessitating invalidation of the cached value.
 - **Invalidate Memo**: Reset the `distanceMemo` whenever the object’s state changes that affects the memoized value.
+
 ```Java
 distanceMemo = Optional.empty(); // Invalidate previous memo on change
 ```
+
 ### Memoization with arguments
 **Memoization with Arguments**:
 - **Example**: In the `FileSummer` class, memoization is extended to handle functions with arguments by using a `Map` to store results.
+
 ```Java
 private Map<String, Long> fileSumMemo;
 public long getFileSum(String filename) {
@@ -537,6 +561,7 @@ public long getFileSum(String filename) {
     return fileSum;
 }
 ```
+
 **Trade-off**:
 - If the underlying data changes (e.g., file content changes externally), the memoized value might become incorrect. This leads to potential issues with stale or inaccurate results.
 ### Memo Invalidation Challenges
@@ -549,6 +574,7 @@ public long getFileSum(String filename) {
 - The original function checks both `path` and `pathMap` for null before performing expensive operations like calculating `totalDistance()`. However, the calculation of `totalDistance` is wasteful if `pathMap` is null, as it's not used.
 - **Optimization**: Check the "easy" conditions (null checks) first to prevent unnecessary operations.  
     **Improved Code**:
+
 ```Java
 public void addToPathMap(Path path, Map<Path, Double> pathMap) {
     if (path == null) {
@@ -561,22 +587,27 @@ public void addToPathMap(Path path, Map<Path, Double> pathMap) {
     pathMap.put(path, totalDistance);
 }
 ```
+
 - This way, we avoid calculating `totalDistance()` if `pathMap` is null.
 ### Conditional Order
 - In a function that checks for a reservation's validity:
+
 ```Java
 public boolean isReservationValid(Reservation reservation, Time currentTime) {
     return reservationService.reservationExists(reservation) &&
         reservation.isTimeInWindow(currentTime);
 }
 ```
+
 - **Optimization**: Since `reservation.isTimeInWindow(currentTime)` is a fast operation (no remote database query), it should be checked **first**. This takes advantage of **short-circuiting** in boolean expressions:
+
 ```Java
 public boolean isReservationValid(Reservation reservation, Time currentTime) {
     return reservation.isTimeInWindow(currentTime) &&
         reservationService.reservationExists(reservation);
 }
 ```
+
 - This way, if the first condition is false, the second condition is never evaluated, saving time and resources.
 #### Short-Circuiting and Operator Differences
 - **`&&` (short-circuiting)**: Stops evaluating as soon as one condition is false.
@@ -585,10 +616,13 @@ public boolean isReservationValid(Reservation reservation, Time currentTime) {
 ### Likelihood Conditional Order
 - If both conditions in a boolean expression are expensive but one is more likely to be true or false, reorder them based on likelihood to maximize short-circuiting efficiency.
 	- Example: If `d()` is more likely to be false than `e()`, check `e()` first.
+
 ```Java
 if LikelyFalse() || LikelyTrue() // Better performance if LikelyFalse() is more likely.
 ```
+
 - Similarly, if the first condition is likely true, and both conditions are costly, check the more likely condition first to save computation:
+
 ```Java
 if LikelyTrue() && LikelyFalse() // Better performance if LikelyTrue() is more likely.
 ```

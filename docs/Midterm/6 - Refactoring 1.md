@@ -15,6 +15,7 @@ nav_order: 6
 - Ensure client uses class correctly, not allowing erroneous states.
 - Notify clients when they use the class incorrectly.
 ### Example: `BankAccount`
+
 ``` Java
 public class BankAccount {
     private final int id;
@@ -30,7 +31,9 @@ public class BankAccount {
     }
 }
 ```
+
 #### Creating our Exception
+
 ``` Java
 // exception for creating account with negative balance
 public class NegativeBalanceException extends IllegalArgumentException{
@@ -55,7 +58,9 @@ public class NegativeBalanceException extends IllegalArgumentException{
         return "Error: attempted to create account #" + id + " with a negative balance.";
     }
 ```
+
 #### withdraw and deposit
+
 ``` Java
     public void withdraw(double amount) {
         balance -= amount;
@@ -65,7 +70,9 @@ public class NegativeBalanceException extends IllegalArgumentException{
         balance += amount;
     }
 ```
+
 ##### Error codes
+
 ``` Java
 // error code to handle withdraw
     public boolean withdraw(double amount) {
@@ -99,6 +106,7 @@ public class InsufficientFundsException extends RuntimeException {
     }
 }
 ```
+
 ### Rollback and Throw
 - If an error is detected after the operation, rollback changes before throwing an exception.
 - Ensures no erroneous states occur even when post-conditions fail.
@@ -108,6 +116,7 @@ public class InsufficientFundsException extends RuntimeException {
 - If the statement is `false`, an **`AssertionError`** is thrown.
 - **AssertionError** is not an exception and cannot be caught with `try-catch`.
 ### Example:
+
 ```Java
 public void withdraw(double amount) {
     assert amount > 0 && amount <= balance;
@@ -124,6 +133,7 @@ public void withdraw(double amount) {
 - Use exceptions to enforce **pre-conditions** and **post-conditions**.
 
 *example - pre-condition: prime number must be positive*
+
 ```Java
     public boolean isPrime(int number) {
         if (number <= 0) {
@@ -137,6 +147,7 @@ public void withdraw(double amount) {
         return true;
     }
 ```
+
 ## When not to throw exceptions
 - Avoid using exceptions for **control-flow** (e.g., using try-catch for index validation).
 - Instead, use simple logical checks (e.g., validating list indices with a boolean statement).
@@ -154,6 +165,7 @@ Use try-catch when:
 - Pass the original exception into the `RuntimeException` constructor to preserve the error message.
 - Handling exceptions in the client (e.g., `Main`) **increases coupling**.
 - Clients should only handle exceptions when they can **meaningfully handle** them
+
 ```Java
     public String readTextFile(String filename) {
         try {
@@ -178,11 +190,13 @@ Use try-catch when:
         return fileContents.toString();
     }
 ```
+
 ## Writing your own Exceptions
 - Custom exceptions help **communicate specific issues**
 - In general, `RuntimeException` is a good class for custom exceptions to extend
 
 *example*: `InsufficientFundsException` explains the account balance and transaction amount.
+
 ```
 public class InsufficientFundsException extends RuntimeException {
     public InsufficientFundsException(String message) {
@@ -190,12 +204,14 @@ public class InsufficientFundsException extends RuntimeException {
     }
 }
 ```
+
 ### Exception error messages
 Messages should communicate:
 1. What caused the exception.
 2. How to prevent it in the future.
 
 *example -* `InsufficientFundsException`
+
 ```Java
     private String getInsufficientFundsMessage(BankAccount account, double amount) {
         return "Error: insufficient funds in account #" + id + " - balance: " + balance +
@@ -207,6 +223,7 @@ Messages should communicate:
 ```
 
 - Clients are responsible for **handling** exceptions (e.g., canceling a transaction if funds are insufficient).
+
 ```Java
     try {
         account.withdraw(amount);
@@ -225,6 +242,7 @@ preconditions:
 - `amount` cannot exceed `balance`
 
 *example - equivalence test*
+
 ```Java
 import org.junit.jupiter.api.*;
 
@@ -245,10 +263,12 @@ public class BankAccountTest {
     }
 }
 ```
+
 ## AssertThrows
 - Used to verify that a specific exception is thrown.
 
 *example - expect `RuntimeException`*
+
 ```Java
     @Test
     public void withdrawInsufficientFundsException() {
@@ -256,6 +276,7 @@ public class BankAccountTest {
         assertEquals(500, testAccount.getBalance(),1e-4);
     }
 ```
+
 ## The Importance of Rolling Back
 - Ensure exceptions do not create side effects (e.g., adding votes when exception occurs).
 - Explicitly check preconditions before modifying state to prevent such bugs.

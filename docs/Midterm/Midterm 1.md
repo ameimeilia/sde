@@ -93,6 +93,7 @@ nav_order: 11
 		- Objects: use `.equals` method
 	- `assertTrue` / `assertFalse`: checks if a condition is true or false
 	- `assertThrows`: checks whether a specific exception was thrown
+
 ```Java
     @Test
     public void withdrawInsufficientFundsException() {
@@ -100,6 +101,7 @@ nav_order: 11
         assertEquals(500, testAccount.getBalance(),1e-4);
     }
 ```
+
 - Types of **Test Scenarios**
 	1. **Equivalence**: divide input with similar behavior into equivalence classes then test representative values from each partition
 	2. **Boundary**: test for edge cases
@@ -132,6 +134,7 @@ nav_order: 11
 - throw checked exceptions as unchecked exceptions
 ## Making your own Exceptions
 - usually use `RuntimeException` class
+
 ```Java
 public class InsufficientFundsException extends RuntimeException {
     public InsufficientFundsException(String message) {
@@ -139,6 +142,7 @@ public class InsufficientFundsException extends RuntimeException {
     }
 }
 ```
+
 ## Protecting Class Usage
 - **Defensive programming** ensures your code handles unexpected input and states gracefully, making it more robust and error-resistant.
 - Prevent **invalid states** by checking inputs (e.g., throwing an exception if invalid data is passed).
@@ -183,6 +187,7 @@ public class InsufficientFundsException extends RuntimeException {
 - implements functional interfaces
 
 general structure:
+
 ```Java
 (parameters) -> {code block} // don't need parenthesis for 1 parameter
 
@@ -192,6 +197,7 @@ general structure:
 ```
 
 *example*
+
 ```Java
 Comparator<String> ignoreCase = (s1, s2) -> {
     return s1.toUpperCase().compareTo(s2.toUpperCase());
@@ -206,9 +212,11 @@ List<String> words = new ArrayList<>(List.of("Apple", "Zebra", "banana", "Catfis
 words.sort((s1, s2) -> s1.toUpperCase().compareTo(s2.toUpperCase()));
 System.out.println(words);
 ```
+
 ## Functional Interface
 1. **Comparator**: used to sort lists, used for `.sorted()` and `.sort()`
 2. **Consumer**: take in a value, do something with it, but don’t return, used for `forEach()`
+
 ```Java
 // replace
 for(Item item : itemList) {
@@ -218,35 +226,47 @@ for(Item item : itemList) {
 // with
 itemList.forEach(item -> System.out.println(item))
 ```
+
 3. **Predicate**: checks if a value meets a condition, used for `filter()`
+
 ```Java
 (student) -> student.getGPA() > 3.5 // returns true for students with GPA > 3.5
 ```
+
 4. **Function**: transforms an input of type `T` and returns `R`, used for `map()`
+
 ```Java
 x -> x.toString().toUpperCase() // takes object x and returns String
 
 d -> (int)(d + 0.5) // takes Double and returns an Integer
 ```
+
 5. **Executable**: defines an executable, used for` assertThrows()` to check for exception
+
 ```Java
 () -> student.enroll(cs3140)
 ```
+
 ## Java Streams
 - **Streams** are used to process collections of data in a functional programming style, focusing on **declarative** processing rather than **imperative** loops
 
 **Making Streams from** 
 1. List
+
 ```Java
 List<State> stateList = new ArrayList<>();
 Stream<State> stateStream = stateList.stream();
 ```
+
 2. Set
+
 ```Java
 Set<State> stateSet = new HashSet<>();
 Stream<State> stateStream = stateSet.stream();
 ```
+
 3. Map (via entrySet())
+
 ```Java
 Map<String, State> stateMap = new HashMap<>();
 Stream<Map.Entry<String, State>> entryStream = stateMap.entrySet().stream();
@@ -262,52 +282,71 @@ Stream<Map.Entry<String, State>> entryStream = stateMap.entrySet().stream();
 
 **Intermediate operations**: Operations that transform a stream and return another stream for further processing
 - **`sorted`**: Sorts elements of the stream using a comparator
+
 ```Java
 .sorted(Comparator.comparing(State::getPopulation))
 ```
+
 - **`map`**: Transforms each element in the stream.
+
 ```Java
 .map(state -> state.getName())
 ```
+
 - **`filter`**: Filters elements based on a condition.
+
 ```Java
 .filter(state -> state.getPopulation() > 1000000)
 ```
+
 - **`limit`**: Limits the number of elements in the stream.
+
 ```Java
 .limit(5)
 ```
+
 - **`peek`**: Performs an action on each element without modifying the stream.
+
 ```
 .peek(System.out::println)
 ```
+
 - **`distinct`**: Removes duplicates.
+
 ```
 .distinct()
 ```
 
 **Terminal Operations**: Operations that end the stream and produce a result.
 - **`forEach`**: Performs an action for each element in the stream.
+
 ```Java
 .forEach(state -> System.out.println(state.getName()))
 ```
+
 - **`count`**: Returns the number of elements in the stream.
+
 ```Java
 long count = stateList.stream().count();
 ```
+
 - **`toList`**: Turn elements of stream into list
+
 ```Java
 List<State> smallestStates = stateList.stream()
     .sorted(Comparator.comparing(State::getPopulation))
     .limit(5)
     .collect(Collectors.toList());
 ```
+
 - **`reduce`**: Combines all elements into a single result.
+
 ```Java
 int totalPopulation = stateList.stream()
     .map(State::getPopulation)
     .reduce(0, Integer::sum);
 ```
+
 # Software Design:
 - good software design slows software entropy and reduces the overall effort required to make a software change
 ## Design Concepts

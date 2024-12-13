@@ -65,11 +65,13 @@ nav_order: 2
 ### A note on import statements
 - as a general rule, it’s fine to just use `import java.util.*` whenever you’re using anything in the java.util library
 - only import individual classes in the case of a name conflict
+
 ```
 import java.util.*;
 import java.awt.*;
 import java.util.List;
 ```
+
 ## Creating packages
 - `package [name of package]`; package declaration at top of file creates a sub-folder in the source code director
 ### Sharing code
@@ -91,6 +93,7 @@ import java.util.List;
 - important for program-to-program communication
 ## String Arguments
 *example*
+
 ```Java
 public class HelloWho{
     public static void main(String[] args) {
@@ -122,8 +125,10 @@ java edu.virginia.cs.commandline.HelloWho
 Error: This program requires a command line argument for a name. format:
     java edu.virginia.cs.commandline.HelloWho name
 ```
+
 ## Numeric Arguments
 *example*
+
 ```Java
 public class HelloNTimes{
 	    public static void main(String[] args) {
@@ -160,8 +165,10 @@ java edu.virginia.cs.commandline.HelloNTimes 3.6
 Error: First argument was not an integer. Example:
     \tjava edu.virginia.cs.commandline.HelloNTimes 5
 ```
+
 ## Multiple Arguments
 *example*
+
 ```Java
 public class MyGCD{
 	public static void main(String[] args) {
@@ -180,8 +187,10 @@ java edu.virginia.cs.commandline.MyGCD 144 81
 # will output
 GCD(144, 81) = 9
 ```
+
 ## Optional Arguments
 *example*
+
 ```Java
     public static void main(String[] args){
 	    // creates List from Array, includes method contains()
@@ -216,11 +225,13 @@ java edu.virginia.cs.commandline.IsLeapYear 1900 here are some unused arguments 
 	2. long form: with 2 hyphens, ex. `--julian`
 ### Optional Parameter Arguments
 *example*
+
 ```shell
 # using -c flag to specify any calendar
 java edu.virginia.cs.commandline.IsLeapYear 1900 -c Julian
 # Julian is the argument
 ```
+
 ## Tips for handling command line arguments
 - provide useful error messages
 - identify required and optional arguments

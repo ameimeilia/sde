@@ -36,6 +36,7 @@ nav_order: 4
 - core plugins describe the major aspects of the project to gradle
 
 *example*
+
 ```Groovy
 plugins {
 	// project uses Java
@@ -44,10 +45,12 @@ plugins {
     id 'idea'
 }
 ```
+
 ### Dependencies and Repository
 - **repositories** section tells Gradle where to find libraries.
 
 *example*
+
 ```Groovy
 repositories {
 	// most common Java library repository
@@ -58,6 +61,7 @@ repositories {
 - **dependencies** lists the external libraries and their versions needed for the project
 
 *example*
+
 ```Groovy
 implementation group: 'org.json', name: 'json', version: '20220320'
 ```
@@ -75,15 +79,18 @@ implementation group: 'org.json', name: 'json', version: '20220320'
 - running tests generates an HTML report located at `build/reports/tests/test/index.html`
 
 *example*
+
 ```
 test {
     useJUnitPlatform()
 }
 ```
+
 ### jar
 - tells Gradle how to build output .jar file
 
 *example*
+
 ```
 jar {
     archivesBaseName = "NBA-Excel"
@@ -100,6 +107,7 @@ jar {
 group 'edu.virginia.cs.nbateams'
 version '1.0'
 ```
+
 - `archiveBaseName`: sets the output jar file name with the version number appended
 - `duplicatesStrategy`: leave as `DuplicateStrategy.EXCLUDE` when making a “fat-jar”
 - `manifest`: specifies the `Main-class` (main entry point) for a runnable jar
@@ -108,11 +116,13 @@ version '1.0'
 - contains code and all dependencies
 
 *example*
+
 ```
 from {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
 ```
+
 ## `gradle build`
 - tells Gradle to execute the build script `build.gradle`, which ensures dependencies, compiles code, runs tests, and builds the jar file
 ## Gradle wrapper
@@ -131,6 +141,7 @@ Apache Poi libraries for reading Excel files:
 	- `xssf` stand for “XML Spreadsheet Format”
 ### Adding poi with Gradle
 - add library to `build.gradle` file
+
 ```shell
 dependencies {
 	# add POI-OOXML library
@@ -142,4 +153,5 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
 ```
+
 ### Implementation vs. runtime

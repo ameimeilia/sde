@@ -41,6 +41,7 @@ nav_order: 3
 - only prevents future commits → **write .gitignore first**
 
 *example*
+
 ```gitignore
 # Gradle related folders -> don't want non-source code
 build/
@@ -60,6 +61,7 @@ gradle-app.setting
 # Don't ignore gradle wrapper jar
 !gradle-wrapper.jar
 ```
+
 ### Creating a new empty repository
 1. Github → My Repositories → New → create a starting ReadMe → clone a new repo
 2. create a new project in IntelliJ → select create git repository → push a local repo
@@ -100,6 +102,7 @@ gradle-app.setting
 	- `checkout` also used to sets the working version to a pervious version
 
 *example*
+
 ```shell
 PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git branch
     * development
@@ -116,6 +119,7 @@ PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git branch
     main
   * my_new_branch
 ```
+
 ### `merge`
 - in branch_a, `merge` branch_b: copies changes from branch_b to branch_a
 - to sync: `merge` one direction, resolve conflicts, `merge` in other direction
@@ -123,6 +127,7 @@ PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git branch
 - `merge` without conflicts will auto-commit
 
 *example*
+
 ```shell
 PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git branch
     development
@@ -152,11 +157,13 @@ PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git merge my_new_branch
 ```
 
 - `--squash` sets a single commit message for a group of commits (without `--squash` entire commit history is included)
+
 ```
 PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git merge --squash my_new_branch
 PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git add .
 PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git commit -m "Summary of what merge did"
 ```
+
 # Repository operations
 ### `add`
 - `git add my_filename`: adds any staged changes to the file to the repository
@@ -168,11 +175,13 @@ PS C:\Users\pm8fc\sde-Homeworks\HibernateDemo> git commit -m "Summary of what me
 ### `pull`
 - `git pull`: gets the most recent changes from remote repository for current branch
 - if you have changes that have not been committed and will be overwritten by merge, use `stash`
+
 ```shell
 git stash
 git pull
 git stash pop
 ```
+
 ## Commit hashes
 - git commits are identified /tracked by a unique hexadecimal hash
 - git displays the first 7 characters of the hash; the full hash can be accessed
@@ -186,6 +195,7 @@ git stash pop
 	3. the `=======` is a divider between these changes
 
 *example*
+
 ```
 public class HelloWho {
     public static void main(String[] args) {
@@ -205,6 +215,7 @@ public class HelloWho {
     }
 }
 ```
+
 ## If you get stuck
 - `git reset --hard`: resets repo to the state of the previous commit, discarding all changes
 - or delete local repository and reclone remote repository

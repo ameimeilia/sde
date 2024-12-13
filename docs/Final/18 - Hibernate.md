@@ -8,6 +8,7 @@ Example Repository: [https://github.com/sde-coursepack/HibernateExample](https:/
 ### Entity Classes
 - classes whose data we want to store in our database.  
 - An entity class should look something like [State.java](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/java/edu/virginia/cs/State.java) :
+
 ```Java
 @Entity
 @Table(name = "STATES")
@@ -36,6 +37,7 @@ public class State {
 	2. A zero-argument constructor
 #### Hibernate Configuration
 - entity class is connected to hibernate in the [hibernate.cfg.xml](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/resources/hibernate.cfg.xml) file in `src/main/resources`
+
 ```Java
 <hibernate-configuration>
     <session-factory>
@@ -62,6 +64,7 @@ public class State {
 	- list all classes that are **entity** classes
 #### Simple Persist Example
 - [State.java](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/java/edu/virginia/cs/State.java) is tied to the Database Table STATES:
+
 ```Java
 @Entity
 @Table(name = "STATES")
@@ -71,6 +74,7 @@ public class State { … }
 - simple example of adding a State to the STATES table: [StateDemo.java](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/java/edu/virginia/cs/StateDemo.java)
 
 **Getting and using a hibernate session**
+
 ```Java
 var session = HibernateUtil.getSessionFactory().openSession();
 session.beginTransaction();
@@ -84,11 +88,13 @@ session.getTransaction().commit();
 - use Session object to perform queries on the database
 
 - the following code:
+
 ```Java
 State virginia = new State("Virginia", 8700000, "Richmond");
 session.persist(virginia);
 session.getTransaction().commit();
 ```
+
 1. Creates the object for the State of Virginia
 2. Adds that object to the database (persist)
 3. Commits to transaction (saves permanently)
@@ -99,20 +105,25 @@ session.getTransaction().commit();
 - code is no longer tied to one specific database implementation → can change the database/type of database in the configuration without changing any code
 #### Single Get Example
 - Getting a single object from its ID/primary key - typically an int:
+
 ```Java
 // returns null if object not found -> do null check
 State maryland = session.get(State.class, 1);
 System.out.println(maryland);
 ```
+
 #### Get All Example
 - Getting all objects of a particular class from the database:
+
 ```Java
 String hql = "from State"; //class name, not Table name!
 Query<State> stateQuery = session.createQuery(hql);
 List<State> stateList = stateQuery.getResultList();
 ```
+
 #### HQL Query Example
 - HQL stands for Hibernate Query Language:
+
 ```Java
 String hql = "SELECT e FROM State e WHERE e.capitolCity = :name";
  TypedQuery<State> capitolQuery = StateDemo.session.createQuery(hql, State.class);
@@ -127,6 +138,7 @@ String hql = "SELECT e FROM State e WHERE e.capitolCity = :name";
 #### Update Example
 - Hibernate will determine when to use Update or Insert, so in the query you simply use persist()
 - Example from [GetExample.java](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/java/edu/virginia/cs/GetExample.java):
+
 ```Java
 private static void deposit100ToAccount(Account account) {
 	account.deposit(100);
@@ -134,11 +146,13 @@ private static void deposit100ToAccount(Account account) {
 	session.getTransaction().commit(); //save the change
 }
 ```
+
 #### Criteria Query
 - using appropriate queries with the correct criteria will be far faster and more memory efficient than search/sorting/filtering
 - limitation: HQL only works in Hibernate
 - there are many other JPA implementations
 - Example from [GetExample.java](https://github.com/sde-coursepack/HibernateExamples/blob/master/src/main/java/edu/virginia/cs/GetExample.java) :
+
 ```Java
 private static Account getPrimaryCheckingAccountForClient(Client client) {
 	// used to create our query that uses "where" criteria

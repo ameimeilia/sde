@@ -92,6 +92,7 @@ Extract Method: [https://sde-coursepack.github.io/modules/refactoring/Extract-Me
 - **Invert boolean**: Refactor negative boolean logic to positive for improved readability.
 - **Error Codes**: Avoid using error codes; instead, throw exceptions for better error handling.
 - **Replace Exception with Optionals**: Use `Optional<T>` to represent the potential absence of a value, rather than throwing exceptions.
+
 ```Java
     public int max(List<Integer> integerList) {
         if (integerList.isEmpty()) {
@@ -106,7 +107,9 @@ Extract Method: [https://sde-coursepack.github.io/modules/refactoring/Extract-Me
         return maximum;
     }
 ```
+
 vs.
+
 ```Java
     public Optional<Integer> max(List<Integer> integerList) {
         if (integerList.isEmpty()) {
@@ -121,7 +124,9 @@ vs.
         return Optional.of(new Integer(maximum));
     }
 ```
+
 - **Replace Null with Optionals**
+
 ```Java
     public Student getStudentByComputingId(String computingId) {
         for (Student student : studentList) {
@@ -132,7 +137,9 @@ vs.
         return null;
     }
 ```
+
 vs.
+
 ```Java
     public Optional<Student> getStudentByComputingId(String computingId) {
         for (Student student : studentList) {
@@ -145,6 +152,7 @@ vs.
 ```
 
 use of function:
+
 ```
     Optional<Student> optionalStudent = getStudentByComputingId("abc2def");
     if (optionalStudent.isPresent()) {
@@ -154,6 +162,7 @@ use of function:
        //no student with that computingId exists
     }
 ```
+
 - **Preserve Whole Object**: Pass objects (like `Coordinate`) instead of individual fields to avoid primitive obsession and improve code readability.
 - **Getters for mutables return copies**: When returning mutable objects, return a copy using a constructor of `clone()` to prevent accidental modification.
 - **Making copies of Collections**: Return a copy of a mutable collection (e.g., `ArrayList`) to avoid unintended modifications.

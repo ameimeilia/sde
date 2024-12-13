@@ -73,6 +73,7 @@ nav_order: 5
     - A test **passes** if the code executes successfully without an error.
 - **Test Method Example**
     - Example:
+
 ```Java
 @Test
 @DisplayName("Testing 3-argument max with Descending order arguments: 3, 2, 1")
@@ -83,6 +84,7 @@ public void testMaxDescendingArguments() {
     assertEquals(expected, actual);
 }
 ```
+
 - **@Test Annotation**
     - Marks a method as a test for the JUnit framework.
     - **Conditions for `@Test` methods:**
@@ -97,9 +99,11 @@ public void testMaxDescendingArguments() {
     - Input: The expected value comes first, followed by the actual value.
     - Test passes if the expected and actual values match.
     - Example:
+
 ```Java
 assertEquals(3, MaxFunctions.max(3, 2, 1));
 ```
+
 #### `assertEquals` with Objects
 - **Objects**: When comparing objects, `assertEquals` uses the `.equals()` method. Arrays, for example, compare references, not content.
 - Use `assertArrayEquals` to compare array contents.
@@ -161,6 +165,7 @@ assertEquals(3, MaxFunctions.max(3, 2, 1));
         2. **Execute**: Perform the operation to be tested.
         3. **Check State**: Verify the state of the object to ensure it changed as expected.
 - **Example Test Case**:
+
 ```Java
 @Test
 void testAlreadyChangedSetNumberChanged() {
@@ -170,9 +175,11 @@ void testAlreadyChangedSetNumberChanged() {
     assertEquals(5, nc.getTimesChanged(), "Number of times change did not correctly increment");
 }
 ```
+
 - **Second Test Case**:
     - **Scenario**: Testing behavior when the number does not change (e.g., `nc.setNumber(7)`).
     - **Expected Behavior**: Number remains the same, changes count remains unchanged.
+
 ```Java
 @Test
 void testAlreadyChangedSameNumber() {
@@ -182,6 +189,7 @@ void testAlreadyChangedSameNumber() {
 	assertEquals(4, nc.getTimesChanged(), "Number of times changed when it shouldn't have");
 }
 ```
+
 ### Good Testing Rules
 - **One Operation Per Test**: Focus on testing one operation at a time to isolate issues and avoid complicating tests.
 - **Test the Interface, Not the Implementation**: Test public methods and their behaviors rather than internal details, which maintains test relevance despite implementation changes.
@@ -194,6 +202,7 @@ void testAlreadyChangedSameNumber() {
 - **Concept**: Focus on public and protected methods only, as private methods are implementation details and may change.
 ### Setting Up Test Objects
 - **Concept**: Avoid redundant setup code by using setup methods to initialize test objects.
+
 ```Java
 class MySortedListTest {
     MySortedList myAddTestList;
@@ -214,6 +223,7 @@ class MySortedListTest {
     }
 }
 ```
+
 ### What Methods to Test
 - **Concept**: Test all public and protected methods, focusing on the class interface rather than implementation details.
 ### How Many Tests to Write

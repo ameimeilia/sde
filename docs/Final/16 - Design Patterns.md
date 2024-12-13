@@ -109,6 +109,7 @@ nav_order: 6
 ![Simple Factory Class Diagram](https://dragonprogrammer.com/wp-content/uploads/2017/12/simple_factory_diagram_laptop.png)
 
 - object creation is done in `LaptopFactory` based on information provided by the client code
+
 ```Java
 public class LaptopFactory {
 
@@ -134,6 +135,7 @@ public class LaptopFactory {
 ```
 
 - client code receives an object depending on the requested type
+
 ```Java
 public class Client {
     public static void main(String[] args) {
@@ -146,6 +148,7 @@ public class Client {
     }
 }
 ```
+
 ### Builder
 #### 1. Introduction
 - **Purpose**: Simplifies the creation of objects with numerous properties, preventing cluttered constructors and enhancing readability.
@@ -157,6 +160,7 @@ public class Client {
 #### 3. Classic Builder Pattern
 - create a separate _Builder_ inner class that contains methods to set each property of and build the constructed object
 - facilitates a sequential configuration process and enhances code organization and readability
+
 ```Java
 public class Post {
 
@@ -202,6 +206,7 @@ public class Post {
 ```
 
 - use the _Builder_ to create a new object:
+
 ```Java
 Post post = new Post.Builder()
   .title("Java Builder Pattern")
@@ -209,8 +214,10 @@ Post post = new Post.Builder()
   .category("Programming")
   .build();
 ```
+
 #### 4. Generic Builder Pattern
 - _GenericBuilder_ class can construct various types of objects by leveraging generics:
+
 ```Java
 public class GenericBuilder<T> {
     private final Supplier<T> supplier;
@@ -236,10 +243,12 @@ public class GenericBuilder<T> {
     }
 }
 ```
+
 - offers flexibility and readability, constructing every object concisely while ensuring type safety
 - drawback: based on class setters, losing the immutability offered by the Builder Pattern
 
 - create a new _GenericPost_ class consisting of a default no-args constructor, getters, and setters:
+
 ```
 public class GenericPost {
 
@@ -255,6 +264,7 @@ public class GenericPost {
 ```
 
 - use our _GenericBuilder_ to create a _GenericPost_:
+
 ```
 Post post = GenericBuilder.of(GenericPost::new)
   .with(GenericPost::setTitle, "Java Builder Pattern")
@@ -262,11 +272,13 @@ Post post = GenericBuilder.of(GenericPost::new)
   .with(GenericPost::setCategory, "Programming")
   .build();
 ```
+
 #### 5. Lombok Builder
 - [Lombok](https://www.baeldung.com/intro-to-project-lombok) is a library that simplifies Java code by automatically generating common methods
 - By annotating a class with _@Builder_, Lombok generates a builder class with fluent methods for setting properties
 
 - To use Lombok, import the dependency from the [Maven central repository](https://mvnrepository.com/artifact/org.projectlombok/lombok):
+
 ```Java
 <dependency>
     <groupId>org.projectlombok</groupId>
@@ -276,6 +288,7 @@ Post post = GenericBuilder.of(GenericPost::new)
 ```
 
 - Create a new _LombokPost_ class using the _@Builder_ annotation:
+
 ```Java
 @Builder
 @Getter
@@ -287,6 +300,7 @@ public class LombokPost {
 ```
 
 - use the builder pattern out of the box to create new objects:
+
 ```Java
 LombokPost lombokPost = LombokPost.builder()
   .title("Java Builder Pattern")
@@ -294,6 +308,7 @@ LombokPost lombokPost = LombokPost.builder()
   .category("Programming")
   .build();
 ```
+
 ### Factory Method
 - provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
 - **Approach**: Replace direct object creation (`new`) with a special _factory method_, creating objects within this method.
@@ -315,6 +330,7 @@ LombokPost lombokPost = LombokPost.builder()
 - **Factory Method** used for creating cross-platform UI elements without coupling the client code to concrete UI classes.
 
 ![The structure of the Factory Method pattern example](https://refactoring.guru/images/patterns/diagrams/factory-method/example.png?id=67db9a5cb817913444efcb1c067c9835)
+
 ```Java
 // The creator class declares the factory method that must
 // return an object of a product class. The creator's subclasses
@@ -391,6 +407,7 @@ class Application is
         this.initialize()
         dialog.render()
 ```
+
 ####  How to Implement
 1. **Common Interface**: Define a common interface for all products.
 2. **Empty Factory Method**: Add a factory method in the creator class with the product interface as its return type.
@@ -425,6 +442,7 @@ class Application is
 ####  Pseudocode Example
 - **Abstract Factory** pattern used for creating cross-platform UI elements without coupling the client code to concrete UI classes, while keeping all created elements consistent with a selected operating system.
 ![The class diagram for the Abstract Factory pattern example](https://refactoring.guru/images/patterns/diagrams/abstract-factory/example.png?id=5928a61d18bf00b047463471c599100a)
+
 ```Java
 // The abstract factory interface declares a set of methods that
 // return different abstract products. These products are called
@@ -515,6 +533,7 @@ class ApplicationConfigurator is
 
         Application app = new Application(factory)
 ```
+
 ####  How to Implement
 1. Map out product types and variants.
 2. Declare abstract interfaces for each product.
@@ -552,6 +571,7 @@ class ApplicationConfigurator is
 - **Iterator** pattern is used to walk through a special kind of collection which encapsulates access to Facebook’s social graph
 
 ![Structure of the Iterator pattern example](https://refactoring.guru/images/patterns/diagrams/iterator/example.png?id=f2a24ef3787bf80ed450709240506ff2)
+
 ```Java
 // The collection interface must declare a factory method for
 // producing iterators. You can declare several methods if there
@@ -647,6 +667,7 @@ class Application is
         iterator = network.createCoworkersIterator(profile.getId())
         spammer.send(iterator, "Very important message")
 ```
+
 ####  How to Implement
 - **Iterator Interface**: Define methods for fetching elements, position tracking, and iteration end-check.
 - **Collection Interface**: Define methods to fetch iterators; tailor iterators based on traversal needs.
@@ -679,6 +700,7 @@ class Application is
 - **Client**: Instantiates a strategy and sets it in the context, allowing for runtime changes.
 ####  Pseudocode Example
 - use multiple **strategies** to execute various arithmetic operations.
+
 ```Java
 // The strategy interface declares operations common to all
 // supported versions of some algorithm. The context uses this
@@ -746,6 +768,7 @@ class ExampleApplication is
 
         Print result.
 ```
+
 ####  How to Implement
 1. Identify the algorithm subject to frequent changes.
 2. Create a common strategy interface for the algorithms.
@@ -785,6 +808,7 @@ class ExampleApplication is
 - **Observer** pattern lets the text editor object notify other service objects about changes in its state
 
 ![Structure of the Observer pattern example](https://refactoring.guru/images/patterns/diagrams/observer/example.png?id=6d0603ab5a00e4463b81d9639cd746a2)
+
 ```Java
 // The base publisher class includes subscription management
 // code and notification methods.
@@ -872,6 +896,7 @@ class Application is
             "Someone has changed the file: %s")
         editor.events.subscribe("save", emailAlerts)
 ```
+
 ####  How to Implement
 1. **Define Publisher/Subscribers**:
     - Core functionality as the publisher; auxiliary functions as subscribers.
@@ -915,6 +940,7 @@ class Application is
 - adapter can be used in place of an existing client class
 ####  Pseudocode Example
 ![Structure of the Adapter pattern example](https://refactoring.guru/images/patterns/diagrams/adapter/example.png?id=9d2b6857ce256f2c669383ce4df3d0aa)
+
 ```Java
 // Say you have two classes with compatible interfaces:
 // RoundHole and RoundPeg.
@@ -971,6 +997,7 @@ large_sqpeg_adapter = new SquarePegAdapter(large_sqpeg)
 hole.fits(small_sqpeg_adapter) // true
 hole.fits(large_sqpeg_adapter) // false
 ```
+
 ####  How to Implement
 - Identify two incompatible classes.
 - Create a **client interface** defining how clients interact with the service.
@@ -1000,6 +1027,7 @@ hole.fits(large_sqpeg_adapter) // false
 - **Facade** pattern simplifies interaction with a complex video conversion framework.
 
 ![The structure of the Facade pattern example](https://refactoring.guru/images/patterns/diagrams/facade/example.png?id=2249d134e3ff83819dfc19032f02eced)
+
 ```Java
 // These are some of the classes of a complex 3rd-party video
 // conversion framework. We don't control that code, therefore
@@ -1048,6 +1076,7 @@ class Application is
         mp4 = convertor.convert("funny-cats-video.ogg", "mp4")
         mp4.save()
 ```
+
 ####  How to Implement
 1. Check if the subsystem can be simplified.
 2. Create a facade class to redirect client requests to the appropriate subsystem objects.
@@ -1080,6 +1109,7 @@ class Application is
 - **Decorator** pattern used to compress and encrypt sensitive data independently from the code that actually uses this data.
 
 ![Structure of the Decorator pattern example](https://refactoring.guru/images/patterns/diagrams/decorator/example.png?id=eec9dc488f00c85f50e764323baa723e)
+
 ```Java
 // The component interface defines operations that can be
 // altered by decorators.
@@ -1200,6 +1230,7 @@ class ApplicationConfigurator is
         salary = logger.load()
     // ...
 ```
+
 ####  How to Implement
 1. **Identify Domain Layers**: Determine primary component and optional layers.
 2. **Define Common Interface**: For primary and optional layers.
@@ -1225,6 +1256,7 @@ class ApplicationConfigurator is
 - A method that creates objects using a wrapper around a constructor.
 
 *example - `next` is a creation method:*
+
 ```Java
 class Number {
     private $value;
@@ -1238,6 +1270,7 @@ class Number {
     }
 }
 ```
+
 ## 3. Static creation method
 - creates and returns objects, often as an alternative constructor
 - **Usage**:
@@ -1245,6 +1278,7 @@ class Number {
     - To reuse existing objects (e.g., Singleton pattern).
 
 *example - `load` method is a static creation method*
+
 ```Java
 class User {
     private $id, $name, $email, $phone;
@@ -1263,10 +1297,12 @@ class User {
     }
 }
 ```
+
 ## 4. _Simple factory_ pattern
 - A single class with a creation method using conditionals to instantiate and return different objects based on parameters.
 
 *example*
+
 ```Java
 class UserFactory {
     public static function create($type) {
@@ -1280,9 +1316,11 @@ class UserFactory {
     }
 }
 ```
+
 ## 5. _Factory Method_ pattern
 - A creational pattern that provides an interface for creating objects, allowing subclasses to modify the object type.
 - Commonly used in base classes, with subclasses extending the creation logic.
+
 ```Java
 abstract class Department {
     public abstract function createEmployee($id);
@@ -1306,6 +1344,7 @@ class AccountingDepartment extends Department {
     }
 }
 ```
+
 ## 6. _Abstract Factory_ pattern
 - A creational pattern that produces families of related objects without specifying their concrete classes.
 - Works with "families of objects"

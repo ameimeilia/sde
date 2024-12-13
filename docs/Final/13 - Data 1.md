@@ -44,6 +44,7 @@ nav_order: 3
 - **Lists**: Ordered data in square brackets (e.g., `[1, 2, 3]`)
 - **Maps**: Key-value pairs in curly braces, where keys must be strings (e.g., `{"key": "value"}`)
 ## Example structure
+
 ```
 {
   "conferences": [
@@ -111,6 +112,7 @@ nav_order: 3
   ]
 }
 ```
+
 - The outer structure is a **map** with a key `"conferences"` that maps to a **list** of conference objects.
 - Each **conference** object is a **map** with keys like `"abbreviation"`, `"id"`, `"name"`, and `"teams"` (which is itself a list of team objects).
 - Each **team** object is a **map** containing details like `"id"`, `"name"`, `"abbreviation"`, `"record"`, etc.
@@ -150,6 +152,7 @@ nav_order: 3
 - `length()`: Get the size of the array.
 ## Example: Parse QUIZ JSON
 - parse the following JSON string into a series of objects that will let us build a quiz from this format
+
 ```
 {
   "quiz": {
@@ -190,6 +193,7 @@ nav_order: 3
   }
 }
 ```
+
 ## Our classes
 ### `Quiz.java`
 
@@ -222,6 +226,7 @@ nav_order: 3
 ### Parsing QuizQuestion json
 - Extract question, options (as `JSONArray`), and answer from JSON.`
 - Example method:
+
 ```Java
     private QuizQuestion jsonToQuizQuestion(JSONObject jsonObject) {
 	    String question = jsonObject.getString("question");
@@ -236,10 +241,12 @@ nav_order: 3
         return new QuizQuestion(answer, options, question);
     }
 ```
+
 ### Parsing QuizCategory
 - Each category is a `JSONArray` of `QuizQuestion` objects.
 - Parse each category by iterating over the array and converting it into `QuizQuestion` objects.
 - Sample code for parsing categories and questions:
+
 ```Java
 private Quiz getQuizFromJSON(JSONObject root) {
         var quiz = new Quiz();
@@ -265,7 +272,9 @@ private Quiz getQuizFromJSON(JSONObject root) {
         return quizCategory;
     }
 ```
+
 ### Final Quiz Parser code:
+
 ```Java
 public class QuizParser {
     public static void main(String[] args) throws IOException{
@@ -330,10 +339,12 @@ public class QuizParser {
     }
 }
 ```
+
 # Building JSON Objects
 - **Goal**: Convert a `Quiz` object into a `JSONObject`.
 ## QuizQuestion to JSONObject
 - `QuizQuestion` has the following fields:
+
 ```Java
 public class QuizQuestion {
     private String question;
@@ -345,6 +356,7 @@ public class QuizQuestion {
 ```
 
 - code to write to a `QuizQuestion` to a `JSONObject`
+
 ```Java
 public JSONObject toJSON() {
 	JSONObject questionJSON = new JSONObject();
@@ -360,8 +372,10 @@ public JSONObject toJSON() {
 	return questionJSON;
 }
 ```
+
 ## QuizCategory to JSONArray
 - `QuizCategory` has the following fields:
+
 ```Java
 public class QuizCategory {
     private String categoryName;
@@ -372,6 +386,7 @@ public class QuizCategory {
 ```
 
 - `toJSON()` converts the list of `QuizQuestion` objects to a `JSONArray` without including the category name (handled separately in `Quiz`)
+
 ```Java
 public JSONArray toJSON() {
     List<JSONObject> questionObjects = questions.stream()
@@ -380,8 +395,10 @@ public JSONArray toJSON() {
     return new JSONArray(questionObjects);
 }
 ```
+
 ## Quiz to JSON Object
 - `Quiz.java` field:
+
 ```Java
 public class Quiz {
     private Map<String,QuizCategory> quiz;
@@ -406,6 +423,7 @@ public JSONObject toJSON() {
 ```
 
 - after running `toJSON()` on a quiz built from our starting json in the last module:
+
 ```Java
 // printed using .toString(int indentFactor) -> questionObject.toString(2)
 {"quiz": {

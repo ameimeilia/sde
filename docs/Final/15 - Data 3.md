@@ -16,6 +16,7 @@ runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
 # Foreign Keys
 ## Example Courses Database
 ### Students
+
 ```sqlite
 CREATE TABLE IF NOT EXISTS Students (
     StudentId INTEGER PRIMARY KEY,
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS Students (
 |1|Jonathan|Doe|abc2def|
 |2|Jane|Smith|ghi3jkl|
 ### Courses
+
 ```sqlite
 CREATE TABLE IF NOT EXISTS Courses (
     Crn INTEGER PRIMARY KEY,
@@ -48,11 +50,13 @@ CREATE TABLE IF NOT EXISTS Courses (
 |CRN|Subject|CourseNumber|Section|MeetingTime|
 |---|---|---|---|---|
 |12345|CS|3140|1|14:00-15:15|
+
 ### Enrollments
 - pairs StudentIDs and CourseIDs to track student enrollment
 - this pattern is called a “Bridge Table” and is used to handle “many-to-many” connections:
 	1. many students can enroll in 1 course  
 	2. 1 student can enroll in many courses
+
 ```sqlite
 CREATE TABLE Enrollments(
     EnrollmentID INTEGER PRIMARY KEY,
@@ -75,23 +79,29 @@ CREATE TABLE Enrollments(
 - want to enforce **data integrity**
 - example: for every record in **Enrollments**, StudentID is a _real_ student and CRN is a _real_ course
 ### Foreign key syntax:
+
 ```sqlite
 FOREIGN KEY (StudentID) REFERENCES Students (StudentID)
 ```
+
 - in the **Enrollments** Table the field `Enrollments.StudentID` is referencing `Students.StudentsID` in the `Students` Table
 - **every** `Enrollments.StudentID` for every record in our Enrollments table **must** exist in the `Students` table
 - two columns having the same name immediately implies a foreign key relationship
 ### Enabling Foreign Keys in SQLite
 - By default, foreign keys in SQLite **are not enforced**
 - to **enable** foreign key enforcement **per connection**:
+
 ```sqlite
 PRAGMA foreign_keys=ON;
 ```
+
 - There is no “permanent” way to turn on foreign key enforcement for a database.
 ### ON DELETE CASCADE
+
 ```sqlite
 FOREIGN KEY (StudentID) REFERENCES Students (StudentID) ON DELETE CASCADE,
 ```
+
 - “If the referenced Student in the Students table is deleted, then _cascade_ that deletion to all records with that StudentID in Enrollments”.
 - without `ON CASCADE DELETE`, an error will be thrown when deleting a record that is referenced in another table
 # Joins
@@ -162,9 +172,11 @@ FirstName  LastName  ComputingID
 Debra      Jones     ghi3jk
 Jack       Black     lmn4opq
 ```
+
 ### Example JOIN Query
 - `JOIN` Courses and Enrollments table using the `Crn` attribute as the foreign key
 - get `StudentId` from Enrollments and `Section` from Courses
+
 ```sqlite
 SELECT Enrollments.StudentID, Courses.Section                                       
    FROM Enrollments                                           
@@ -177,8 +189,10 @@ StudentID  Section
 2          2
 3          2
 ```
+
 ### Multiple Joins
 to get the names and computing IDs of the students:
+
 ```sqlite
 SELECT Students.FirstName, Students.LastName, Students.ComputingID, Courses.Section   
    FROM Enrollments                                              
@@ -192,15 +206,19 @@ John       Smith     abc2def      1
 Debra      Jones     ghi3jk       2
 Jack       Black     lmn4opq      2
 ```
+
 ## Types of Joins
 ### INNER Joins
+
 ```sqlite
 FROM TableA JOIN TableB ON TableA.ColumnName = TableB.ColumnName
 ```
+
 - used to **only** combine matching data when joining tables
 ### CROSS Join
 - used to combine every record of one table with every record of another table
 ### LEFT OUTER JOIN
+
 ```sqlite
 -- add a new section of CS 3140 that no student is enrolled in
 INSERT INTO Courses (Subject, CourseNumber, Section, MeetingTime)

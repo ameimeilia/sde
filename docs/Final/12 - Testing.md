@@ -85,6 +85,7 @@ nav_order: 2
 - **Benefit**: Testing the target method without relying on external dependencies or APIs ensures the test only focuses on the method's logic.
 
 *example*
+
 ```Java
 public class StubNBATeamReader extends NBATeamReader {
     public static final NBATeam LAKERS = new NBATeam(1,"Lakers","Los Angelos","LAL",
@@ -101,6 +102,7 @@ public class StubNBATeamReader extends NBATeamReader {
     }
 }
 ```
+
 ### Manual Stub Limitations
 1. **Limited Flexibility**:
     - The stub is designed to test one specific method. If we need to test other methods (e.g., handling teams with state names like Utah Jazz), we would need to modify the existing stub, which might affect other tests.
@@ -113,6 +115,7 @@ public class StubNBATeamReader extends NBATeamReader {
 - Mockito simplifies testing by allowing “on-the-fly” stubbing, avoiding the need to create multiple stub classes.
 - Reduces the amount of extra code needed and prevents pollution of the global namespace.
 ## Mockito usage example
+
 ```Java
 package edu.virginia.cs.nbateams;
 
@@ -153,6 +156,7 @@ public class GoodAbbreviationsTest {
     }
 }
 ```
+
 ## Stub Test Double
 - `mock(NBATeamReader.class)` creates a Test Double object, acting as the `NBATeamReader` during testing.
 ## Writing a stub with mockito
@@ -160,10 +164,12 @@ public class GoodAbbreviationsTest {
 - This stubs the `getNBATeams()` method to return a list with specific NBA teams when called.
 ## Installing mockito
 - Add to Gradle dependencies:
+
 ```Java
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.11.0'
 ```
+
 **Version 4 over 5**: For Java 17, use Mockito 4.x (e.g., 4.11.0), as Mockito 5 requires additional setup.
 ### Import statements
 `import static org.mockito.Mockito.*;`
@@ -171,9 +177,11 @@ public class GoodAbbreviationsTest {
 - A mock is similar to a stub, created to remove external dependencies while monitoring interactions with those dependencies.
 ### Mockito `verify` function
 - Used to verify that a particular function, with a particular argument, was called on a mock object
+
 ```Java
 verify(mockObject).methodName(arguments);
 ```
+
 ### Purpose of `verify`
 - **Post-Condition Checks**: Similar to `assert` methods, but specifically for mocked objects where real behavior does not exist.
 ### `verify` vs. `assert` methods
