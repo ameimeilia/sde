@@ -4,21 +4,22 @@ title: Backend
 parent: Final Notes
 nav_order: 11
 ---
-#### Backend
+## Backend
+- rule: don’t implement your own database from scratch
 - Frontend - client-side
 	- the screens the user sees
 	- any local storage
 - Backend - server-side
 	- remote database
 	- remote services
-#### “Off-the-shelf” Backend
+## “Off-the-shelf” Backend
 - backend as a service
 	- ex. AWS, Azure, etc.
 - Firebase
 	- popular back-end OTS software, especially in mobile development
 		- supports user management, data storage, file storage, etc.
 	- business model has a limited start-up plan and pay-per-data-usage plan
-#### Firebase Tools
+## Firebase Tools
 - authentication: authenticate and manage users
 - cloud firestore: cloud noSQL database
 - cloud storage: cloud file management
@@ -28,14 +29,12 @@ nav_order: 11
 	- don’t have to manage the servers
 	- servers accessed through API calls
 - firebase hosting: global web hosting for static content
-#### Cost of Backend
+## Cost of Backend
 - operational costs
 	- physical server(s), electricity, internet data usage/bandwith
 - logistical costs
 	- monitoring, security, building your own APIs or HTML interfaces, database management/backup
-#### Rules of Backend
-- don’t implement your own database from scratch
-#### Monolith
+## Monolith
 - entire application on one code-base that can be deployed to one or more servers
 - advantages
 	- scaling entire application is easy: buy more servers and load the same application on each
@@ -46,7 +45,7 @@ nav_order: 11
 	- cannot scale individual services, since all services are on the same server
 	- reliability: an error that causes a crash on one server can crash them all
 	- services can end up tightly coupled, making them harder to separate/change over time
-#### Microservice
+## Microservice
 - have individual services hosted on their own server(s)
 - advantages:
 	- each service is smaller code base/may have its own database → less “accidental coupling,” development is easier
@@ -57,7 +56,7 @@ nav_order: 11
 	- monitoring: need to be able to see which services are functional and which aren’t
 	- debugging: each server may have it’s own logs; if several services go down at nearly the same time, identifying the source can be hard
 	- infrastructure costs: each service can have its own costs
-#### Scaling
+## Scaling
 - horizontal scaling: servers full → add more servers
 - vertical scaling: servers full → upgrade existing servers to make them more powerful
 - bottlenecks:
@@ -67,9 +66,9 @@ nav_order: 11
 	- typically, NoSQL more scalable → inherently distributed
 - ideal:
 	- start with a monolith and relational database
-#### MVC
+## MVC
 ![[Screenshot 2024-12-12 at 9.13.40 PM.png | center | 350]]
-#### HTTPRequests
+## HTTPRequests
 - HTTPRequests: from client to server (or one server to another)
 	- GET: retrieve some information
 		- generally no message body
@@ -79,7 +78,7 @@ nav_order: 11
 	- PUT: similar to POST, but for changing existing information
 	- DELETE: remove information
 		- not supported in older HTML forms
-#### HTTPResponse
+## HTTPResponse
 - Codes: 3 digit number, first digit denotes “type” of response
 	- 1xx: informational responses, request was received and is processing
 	- 2xx: successful response
@@ -97,7 +96,7 @@ nav_order: 11
 	- 500: internal server error, error on server side
 	- 502: bad gateway, gateway server had an error
 	- 503: service unavailable, service cannot handle requests
-#### REST
+## REST
 - representation state transfer
 - 5 components:
 	1. statelessness: no state information stored in active memory
